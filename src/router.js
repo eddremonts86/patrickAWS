@@ -6,13 +6,12 @@ Vue.use(Router);
 
 const router = new Router({
     mode: 'history',
-    routes: [
+    routes: [         
         {
             path: "/",
-            name: "home",
-            component: () => import("./views/general/Home.vue")
-        },
-        {
+            name: "login",
+            component: () => import("./views/login/login.vue")
+        },{
             path: "/dashboard",
             name: "dashboard",
             component: () => import("./views/general/Home.vue")
@@ -22,12 +21,7 @@ const router = new Router({
             path: "/about",
             name: "about",
             component: () => import("./views/general/About.vue")
-        },
-        {
-            path: "/login",
-            name: "login",
-            component: () => import("./views/login/login.vue")
-        },
+        },        
         {
             path: "/company",
             name: "company",
@@ -52,7 +46,7 @@ const router = new Router({
 })
 
 
-
+/*
 router.beforeResolve((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       let user;
@@ -73,7 +67,5 @@ router.beforeResolve((to, from, next) => {
     next()
     }
   })
-  
-  
-  
+*/
   export default router;

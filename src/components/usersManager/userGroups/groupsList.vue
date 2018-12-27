@@ -97,8 +97,26 @@
             },
             pauseGroup: function (id , susp) {
                 alert( 'Pause/play group in id ' + id + ' and  suspend is '  + !susp )
-            }
+            },
+            getdata:function() {                     
+                   this.$http.get("https://bsmjabxgm0.execute-api.eu-central-1.amazonaws.com/dev-xavier/api/user",this.$httpConfg)
+                   .then(function (response) {
+                    // handle success
+                    console.log(response.data.items);
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+                            
+                            }    
         },
+        created(){
+              this.getdata()  
+        }
 
     }
 </script>
