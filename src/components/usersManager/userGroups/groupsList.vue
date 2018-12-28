@@ -1,122 +1,101 @@
 <template>
     <v-flex>
-        <v-data-table
-                :headers="headers"
-                :items="desserts"
-                class="sm6  xs12"
-        >
+        <v-alert :value="alert" transition="scale-transition" type="success">This is a success alert.</v-alert>
+        <v-alert :value="alert_error" transition="scale-transition" type="error">Some error....</v-alert>
+        <v-data-table :headers="headers" :items="desserts" class="sm6 xs12">
             <template slot="items" slot-scope="props">
-                <td>{{ props.item.name }}</td>
-                <td class="text-xs-justify">{{ props.item.fat }}</td>
-                <td class="text-xs-justify">{{ props.item.carbs }}</td>
-                <td class="text-xs-justify">{{ props.item.protein }}</td>
-                <td class="text-xs-justify">{{ props.item.iron }}</td>
+                <td class="text-xs-justify">{{ props.item.name }}</td>
+                <td class="text-xs-justify">{{ props.item._type }}</td>
                 <td class="text-xs-justify">
                     <v-btn
-                            v-on:click="editGroup(props.item.id)"
-                            color="indigo" dark fab flat slot="activator" small>
+                            color="indigo"
+                            dark
+                            fab
+                            flat
+                            slot="activator"
+                            small
+                            v-on:click="editGroup(props.item._id,props.item.email,props.item.enabled)"
+                    >
                         <v-icon dark>edit</v-icon>
                     </v-btn>
                 </td>
                 <td class="text-xs-justify">
                     <v-btn
-                            v-on:click="deleteGroup(props.item.id)"
-                            color="indigo" dark fab flat slot="activator" small>
-                        <v-icon dark>delete</v-icon>
-                    </v-btn>
-                </td>
-                <td class="text-xs-justify">
-                    <v-btn
-                            v-on:click="pauseGroup(props.item.id , props.item.suspend)"
-                            color="indigo" dark fab flat slot="activator" small>
-                        <v-icon dark v-if="props.item.suspend">play_arrow</v-icon>
-                        <v-icon dark v-else>pause</v-icon>
+                            color="indigo"
+                            dark
+                            fab
+                            flat
+                            slot="activator"
+                            small
+                            v-on:click="pauseGroup(props.item._id,props.item.name,props.item.email,props.item.enabled)"
+                    >
+                        <v-icon dark v-if="props.item.enabled">pause</v-icon>
+                        <v-icon dark v-else>play_arrow</v-icon>
                     </v-btn>
                 </td>
             </template>
         </v-data-table>
     </v-flex>
 </template>
+
 <script>
     export default {
         data() {
             return {
+                alert: false,
+                alert_error: false,
                 headers: [
-                    {text: 'Group name', value: 'name'},
-                    {text: 'Adwords', value: 'fat'},
-                    {text: 'Bing', value: 'carbs'},
-                    {text: 'Facebook', value: 'protein'},
-                    {text: 'Instagrm', value: 'iron'},
-                    {text: 'Edit', value: 'id'},
-                    {text: 'Delete', value: 'id'},
-                    {text: 'Suspend user group', value: 'suspend'},
+                    {text: "Name", value: "name"},
+                    {text: "Type", value: "_type"},
+                    {text: "Edit", value: "_id"},
+                    {text: "Suspend user group", value: "enabled"}
                 ],
-                desserts: [
-                    {
-                        value: false,
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        suspend: false,
-                        iron: '1%',
-                        id:1
-                    },
-                    {
-                        value: false,
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        suspend: true,
-                        iron: '1%',
-                        id:2
-                    },
-                    {
-                        value: false,
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        suspend: false,
-                        iron: '7%',
-                        id:3
-                    }
-                ]
-            }
+                desserts: []
+            };
         },
         methods: {
-            editGroup: function (id) {
-              console.log(id);
+            editGroup: function (id, email, enabled) {
+                let url = this.$urlBase + "/api/user/" + id;
+                this.$http
+                    .post(url,
+                        {
+                            email: email,
+                            enabled: !enabled
+                        },
+                        this.$httpConfg)
+                    .then(response => (this.desserts = response.data.items))
+                    .catch(function (error) {
+                        this.alert_error = true;
+                    });
             },
-            deleteGroup: function (id) {
-                alert( 'Delete group in id ' + id)
+            pauseGroup: function (id, name, email, enabled) {
+                let url = this.$urlBase + "/api/user/" + id;
+                this.$http
+                    .put(url, {
+                        name: name,
+                        email: email,
+                        groups: [],
+                        enabled: !enabled
+                    }, this.$httpConfg)
+                    .then(response => (this.desserts = response.data.items))
+                    .catch(function (error) {
+                        this.alert_error = true;
+                    });
             },
-            pauseGroup: function (id , susp) {
-                alert( 'Pause/play group in id ' + id + ' and  suspend is '  + !susp )
-            },
-            getdata:function() {                     
-                   this.$http.get("https://bsmjabxgm0.execute-api.eu-central-1.amazonaws.com/dev-xavier/api/user",this.$httpConfg)
-                   .then(function (response) {
-                    // handle success
-                    console.log(response.data.items);
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function () {
-                    // always executed
-                });
-                            
-                            }    
+            getdata: function () {
+                let url = this.$urlBase + "/api/campaign";
+                this.$http
+                    .get(url, this.$httpConfg)
+                    .then(response => (this.desserts = response.data.items))
+                    .catch(function (error) {
+                        this.alert_error = true;
+                    });
+            }
         },
-        created(){
-              this.getdata()  
+        mounted() {
+            this.getdata();
         }
-
-    }
+    };
 </script>
+
+
