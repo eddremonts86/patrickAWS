@@ -83,7 +83,7 @@
                     });
             },
             getdata: function () {
-                let url = this.$urlBase + "/api/campaign";
+                let url = this.$urlBase + "/api/user-gruoups";
                 this.$http
                     .get(url, this.$httpConfg)
                     .then(response => (this.desserts = response.data.items))

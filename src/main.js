@@ -17,10 +17,10 @@ Vue.config.productionTip = false;
 /*------------------------------------------------------------------------------------Store Config-------------------------------------------------------------------------------------------------*/
 var currentUrl = window.location.href;
 var accesstoken = currentUrl.split('access_token=').pop().split('&')[0];
-if (accesstoken  &&  accesstoken != currentUrl)  {
+if (accesstoken && accesstoken != currentUrl) {
     localStorage.setItem('usertoken', accesstoken);
 }
-console.log(localStorage.getItem('usertoken'))
+//console.log(localStorage.getItem('usertoken'))
 
 /*-----------------------------------------------------------------------------------Axios config --------------------------------------------------------------------------------------------------*/
 let httpConfg = {
@@ -30,7 +30,6 @@ let httpConfg = {
     }
 };
 
-console.log(httpConfg)
 let apiUrlBase = "https://bsmjabxgm0.execute-api.eu-central-1.amazonaws.com/dev-xavier";
 Vue.prototype.$http = Axios;
 Vue.prototype.$urlBase = apiUrlBase;
