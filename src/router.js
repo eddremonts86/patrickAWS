@@ -9,6 +9,11 @@ const router = new Router({
     routes: [         
         {
             path: "/",
+            name: "Home",
+            component: () => import("./views/general/Home.vue")
+        },
+        {
+            path: "/login",
             name: "login",
             component: () => import("./views/login/login.vue")
         },{
@@ -16,7 +21,6 @@ const router = new Router({
             name: "dashboard",
             component: () => import("./views/general/Home.vue")
         },
-
         {
             path: "/about",
             name: "about",
@@ -36,6 +40,11 @@ const router = new Router({
             path: "/users-groups",
             name: "users-groups",
             component: () => import("./views/users/userGroups.vue")
+        },
+        {
+            path: "/campaigns",
+            name: "campaigns",
+            component: () => import("./views/campaigns/campaignDasboard.vue")
         }
 
 

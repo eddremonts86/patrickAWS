@@ -89,19 +89,19 @@
                 </v-container>
             </v-card-text>
         </v-card>
-        <dasboardIndexProject></dasboardIndexProject>
+        <div v-if="projects"> 
+         <dasboardIndexProject  v-for="project in projects" :key="project._id" :projectobj="project"></dasboardIndexProject >
+        </div>
     </v-container>
 
 
 </template>
 <script>
     import dasboardIndexProject from "@/components/dashboard/dashboardIndexProject.vue";
-
     export default {
         components: {dasboardIndexProject},
         data: () => ({
             ex4: 1,
-
             date: new Date().toISOString().substr(0, 10),
             menu: false,
             modal: false,
@@ -109,7 +109,24 @@
             end_date: new Date().toISOString().substr(0, 10),
             end_menu: false,
             end_modal: false,
-         })
+            projects: false
+            })
+        ,
+        methods: {
+            clearswitch: function () {},
+            getProjects(){  
+            let url = this.$urlBase + "/api/project";
+            this.$http
+                .get(url, this.$httpConfg)
+                .then(response => (this.projects = response.data.items))
+                .catch(function(error) {
+                  alert('I have not access to the api ...' + error)
+                });
+            }
+        },
+        created(){
+            this.getProjects()
+        }
     };
 </script>
 <style>

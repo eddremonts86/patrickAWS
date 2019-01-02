@@ -2,182 +2,153 @@
     <v-flex class="center" xs12>
         <v-card-text class="px-0">
             <div class="projects">
-                <h1>{{projectName}}</h1>
+                <h1>{{projectobj.name}}</h1>
                 <hr>
                 <v-container fluid>
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid>
                                 <v-layout row wrap>
-                                    <v-flex md3 sm3 xs12>
+                                    <v-flex md2 sm2 xs12>
                                         <v-checkbox
-                                                color="adwords"
+                                                color="blue"
                                                 hide-details
-                                                label="adwords"
-                                                v-model="ex4"
+                                                label="Adwords"
+                                                v-model="adwords"
                                                 value="adwords"
                                         ></v-checkbox>
                                     </v-flex>
-                                    <v-flex md3 sm3 xs12>
-                                        <v-checkbox color="odds" hide-details label="odds" v-model="ex4"
-                                                    value="odds"></v-checkbox>
+                                    <v-flex md2 sm2 xs12>
+                                        <v-checkbox 
+                                                color="blue" 
+                                                hide-details 
+                                                label="Odds" 
+                                                v-model="odds"
+                                                value="odds">
+                                        </v-checkbox>
                                     </v-flex>
-                                    <v-flex md3 sm3 xs12>
+                                    <v-flex md2 sm2 xs12>
                                         <v-checkbox
-                                                color="facebook"
+                                                color="blue"
                                                 hide-details
-                                                label="facebook"
-                                                v-model="ex4"
+                                                label="Facebook"
+                                                v-model="facebook"
                                                 value="facebook"
                                         ></v-checkbox>
                                     </v-flex>
 
-                                    <v-flex md3 sm3 xs12>
+                                    <v-flex md2 sm2 xs12>
                                         <v-checkbox
-                                                color="Instagram"
+                                                color="blue"
                                                 hide-details
                                                 label="Instagram"
-                                                v-model="ex4"
+                                                v-model="Instagram"
                                                 value="Instagram"
                                         ></v-checkbox>
                                     </v-flex>
+
+
+                                    <v-flex md2 sm2 xs12>
+                                        <v-checkbox
+                                                color="red"
+                                                hide-details
+                                                label="Disapproved"
+                                                v-model="disapproved"
+                                                value="disapproved"
+                                        ></v-checkbox>
+                                    </v-flex>
+
+                                    <v-flex md2 sm2 xs12>
+                                        <v-checkbox
+                                                color="red"
+                                                hide-details
+                                                label="Error Only"
+                                                v-model="error"
+                                                value="error Only"
+                                        ></v-checkbox>
+                                    </v-flex>
+
                                 </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
                 </v-container>
 
-                <v-data-table :headers="headers" :items="desserts" class="elevation-1">
+                <v-data-table :headers="headers" :items="project" class="elevation-1">
                     <template slot="items" slot-scope="props">
-                        <td>{{ props.item.name }}</td>
-                        <td class="text-xs-right">{{ props.item.calories }}</td>
-                        <td class="text-xs-right">{{ props.item.fat }}</td>
-                        <td class="text-xs-right">{{ props.item.carbs }}</td>
+                        <td>{{ props.item.created_date }}</td>
+                        <td class="text-xs-right">{{ props.item.start_time }}</td>
+                        <td class="text-xs-right">{{ props.item.start_time }}</td>
+                        <td class="text-xs-right">{{ props.item.name }}</td>
                         <td class="text-xs-right">{{ props.item.protein }}</td>
                         <td class="text-xs-right">{{ props.item.iron }}</td>
+                        <td class="text-xs-right">{{ props.item.iron }}</td>
+                        <td class="text-xs-right">{{ props.item.iron }}</td>
+                        <td class="text-xs-right">{{ props.item.iron }}</td>
+                        <td class="text-xs-right">
+                            <span v-for="plattf in  props.item.platforms " :key="plattf">                               
+                                <v-checkbox
+                                    color="red"
+                                    hide-details
+                                    :label="`${plattf}`"                                  
+                                    value=plattf
+                                ></v-checkbox>
+                            </span>
+                        </td>
+
                     </template>
                 </v-data-table>
             </div>
-        </v-card-text>
+           
+        </v-card-text>       
     </v-flex>
 </template>
 <script>
     export default {
+        props:[
+            'projectobj' 
+        ],
         data() {
             return {
-                ex4: 1,
-                projectName: "Project Name",
+                adwords: 1,
+                odds: 1,
+                facebook: 1,
+                Instagram: 1,
+                disapproved: 1,
+                error: 1,
                 headers: [
-                    {
-                        text: "Dessert (100g serving)",
-                        align: "left",
-                        sortable: false,
-                        value: "name"
-                    },
-                    {text: "Calories", value: "calories"},
-                    {text: "Fat (g)", value: "fat"},
-                    {text: "Carbs (g)", value: "carbs"},
-                    {text: "Protein (g)", value: "protein"},
-                    {text: "Iron (%)", value: "iron"}
+                    {text: "Tiem",value: "name"},
+                    {text: "Date", value: "calories"},
+                    {text: "Event", value: "fat"},
+                    {text: "Sport", value: "carbs"},
+                    {text: "Country", value: "protein"},
+                    {text: "Tournament", value: "iron"},
+                    {text: "Providers",value: "prov"},
+                    {text: "Campaign Template",value: "ct"},
+                    {text: "Campaign Start",value: "cs"}, 
+                    {text: "Platforms/edits",value: "pe"},
                 ],
-                desserts: [
-                    {
-                        value: false,
-                        name: "Frozen Yogurt",
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: "1%"
-                    },
-                    {
-                        value: false,
-                        name: "Ice cream sandwich",
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: "1%"
-                    },
-                    {
-                        value: false,
-                        name: "Eclair",
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: "7%"
-                    },
-                    {
-                        value: false,
-                        name: "Cupcake",
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: "8%"
-                    },
-                    {
-                        value: false,
-                        name: "Gingerbread",
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: "16%"
-                    },
-                    {
-                        value: false,
-                        name: "Jelly bean",
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: "0%"
-                    },
-                    {
-                        value: false,
-                        name: "Lollipop",
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: "2%"
-                    },
-                    {
-                        value: false,
-                        name: "Honeycomb",
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: "45%"
-                    },
-                    {
-                        value: false,
-                        name: "Donut",
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: "22%"
-                    },
-                    {
-                        value: false,
-                        name: "KitKat",
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: "6%"
-                    }
-                ]
+                project: null
             };
         },
         methods: {
-            clearswitch: function () {
-                console.log(this.$root.$el.id);
+            clearswitch: function () {},
+            getProjects(){  
+            let url = this.$urlBase + "/api/campaign";
+            this.$http
+                .get(url, this.$httpConfg)
+                .then(response => (this.project = response.data[0]["items"]))
+                .catch(function(error) {
+                 alert('I have not access to the api ...' + error)
+                });
+            },
+            getdate(fotmat, date){
+                //dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+                return date 
             }
+        },
+        created(){
+            this.getProjects()
         }
     };
 </script>
